@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: checkout repo
       - uses: actions/checkout@v3
-      - with:
-          arch: arm64v8
       - name: Build for arm64v8
+        with:
+          arch: arm64v8
         run: make arm64v8
