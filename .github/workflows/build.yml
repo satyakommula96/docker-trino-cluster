@@ -58,7 +58,8 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
-          file: ./trino-base/Dockerfile-aarch64
+          command: |
+            make arm64v8
           platforms: linux/arm64
           # push: true
           # tags: ${{ steps.prep.outputs.tags }}
