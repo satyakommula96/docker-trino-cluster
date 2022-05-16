@@ -21,7 +21,7 @@ jobs:
     name: Build on ubuntu-20.04 armv7
     steps:
       - name: checkout repo
-      - uses: actions/checkout@v2.1.0
+      # - uses: actions/checkout@v2.1.0
       - uses: uraimo/run-on-arch-action@v2
         id: build
         with:
