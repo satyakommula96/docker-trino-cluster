@@ -2,11 +2,20 @@ TRINO_VERSION := 380
 TRINO_SNAPSHOT_VERSION := 380-SNAPSHOT
 
 .PHONY: build local push run down release
+uname_m := $(shell uname -m)
 
 build:
+ifeq ($(uname_m),x86_64)
 	docker build --build-arg VERSION=${TRINO_VERSION} -t satyakommula/trino-base:${TRINO_VERSION} trino-base
 	docker build --build-arg VERSION=${TRINO_VERSION} -t satyakommula/trino-coordinator:${TRINO_VERSION} trino-coordinator
 	docker build --build-arg VERSION=${TRINO_VERSION} -t satyakommula/trino-worker:${TRINO_VERSION} trino-worker
+endif
+ifeq ($(uname_m),aarch64)
+	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+	docker buildx build --build-arg VERSION=${TRINO_VERSION} --platform linux/arm64/v8 -f trino-base/Dockerfile-aarch64 -t satyakommula/trino-base:${TRINO_VERSION}-arm64v8 trino-base --load
+	docker buildx build --build-arg VERSION=${TRINO_VERSION}-arm64v8 --platform linux/arm64/v8 -t satyakommula/trino-coordinator:${TRINO_VERSION}-arm64v8 trino-coordinator --load
+	docker buildx build --build-arg VERSION=${TRINO_VERSION}-arm64v8 --platform linux/arm64/v8 -t satyakommula/trino-worker:${TRINO_VERSION}-aarch64 trino-worker --load
+endif
 
 snapshot:
 	docker build --build-arg VERSION=${TRINO_SNAPSHOT_VERSION} -f trino-base/Dockerfile-dev -t satyakommula/trino-base:${TRINO_SNAPSHOT_VERSION} trino-base
@@ -15,14 +24,7 @@ snapshot:
 	docker push satyakommula/trino-base:$(TRINO_SNAPSHOT_VERSION)
 	docker push satyakommula/trino-coordinator:$(TRINO_SNAPSHOT_VERSION)
 	docker push satyakommula/trino-worker:$(TRINO_SNAPSHOT_VERSION)
-
-# Experimental
-arm64v8:
-	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	docker buildx build --build-arg VERSION=${TRINO_VERSION} --platform linux/arm64/v8 -f trino-base/Dockerfile-aarch64 -t satyakommula/trino-base:${TRINO_VERSION}-arm64v8 trino-base --load
-	docker buildx build --build-arg VERSION=${TRINO_VERSION}-arm64v8 --platform linux/arm64/v8 -t satyakommula/trino-coordinator:${TRINO_VERSION}-arm64v8 trino-coordinator --load
-	docker buildx build --build-arg VERSION=${TRINO_VERSION}-arm64v8 --platform linux/arm64/v8 -t satyakommula/trino-worker:${TRINO_VERSION}-aarch64 trino-worker --load
-
+	
 push_arm64v8:
 	docker buildx build --build-arg VERSION=${TRINO_VERSION} --platform linux/arm64/v8 -f trino-base/Dockerfile-aarch64 -t satyakommula/trino-base:${TRINO_VERSION}-arm64v8 trino-base --push
 	docker buildx build --build-arg VERSION=${TRINO_VERSION}-arm64v8 --platform linux/arm64/v8 -t satyakommula/trino-coordinator:${TRINO_VERSION}-arm64v8 trino-coordinator --push
