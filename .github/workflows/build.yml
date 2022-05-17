@@ -26,11 +26,9 @@ jobs:
       #     username: ${{ secrets.DOCKERHUB_USERNAME }}
       #     password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        run: make build
+        name: Build 
+        run: |
+          make build
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          # push: true
-          # tags: user/app:latest
