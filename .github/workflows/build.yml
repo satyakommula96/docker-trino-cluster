@@ -29,6 +29,3 @@ jobs:
         name: Build 
         run: |
           make build
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
