@@ -14,13 +14,17 @@ jobs:
         include:
           # We only support building images for linux platforms,
           # so we only specify arch here.
-          - {arch: "amd64"}
-          - {arch: "arm64"}
+          - { arch: "amd64" }
+          - { arch: "arm64" }
     steps:
       - name: Checkout
-        uses: actions/checkout@v2 
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build
-        uses: hashicorp/actions-docker-build@v1
+        # uses: hashicorp/actions-docker-build@v1
         env:
           arch: ${{ matrix.arch }}
         run: |
