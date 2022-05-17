@@ -14,8 +14,8 @@ jobs:
         include:
           # We only support building images for linux platforms,
           # so we only specify arch here.
-          - { arch: "amd64" }
-          - { arch: "arm64" }
+          - { arch: "linux/amd64" }
+          - { arch: "linux/arm64" }
     steps:
       - name: Checkout
         uses: actions/checkout@v2
