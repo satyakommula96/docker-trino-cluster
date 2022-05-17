@@ -20,7 +20,7 @@ jobs:
         run: |
           uname -m
           make build
-  armv7_Build:
+  aarch64_Build:
     # The host should always be Linux
     runs-on: ubuntu-20.04
     steps:
@@ -28,7 +28,7 @@ jobs:
       - uses: uraimo/run-on-arch-action@v2
         id: runcmd
         with:
-          arch: armv7
+          arch: aarch64
           distro: ubuntu20.04
 
           # Not required, but speeds up builds by storing container images in
@@ -38,4 +38,3 @@ jobs:
           # Set an output parameter `uname` for use in subsequent steps
           run: |
             uname -m
-            make build
