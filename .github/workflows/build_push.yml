@@ -21,13 +21,9 @@ jobs:
         run: |
            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       -
-        name: Build
+        name: Build&Test
         run: |
-          make build
-      - 
-        name: Test
-        run: |
-          make test
+          make build;make test
       - 
         name: update_readme
         run: |
