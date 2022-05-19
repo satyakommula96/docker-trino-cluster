@@ -10,32 +10,20 @@ jobs:
   Build_Push:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      -
-        name: Login to DockerHub 
+      - name: Login to DockerHub
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
         run: |
-           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      -
-        name: Build
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build
         run: |
           make build
-      -
-        name: Test
-        run: |
-          make test
-      - 
-        name: update_readme
+      - name: update_readme
         run: |
           ./update-readme.sh
-      - 
-        name: Push to DockerHub
-        run: | 
+      - name: Push to DockerHub
+        run: |
           make push
-      
-
-      
