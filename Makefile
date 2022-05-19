@@ -1,5 +1,5 @@
-TRINO_VERSION := 380
-TRINO_SNAPSHOT_VERSION := 380-SNAPSHOT
+TRINO_VERSION := 381
+TRINO_SNAPSHOT_VERSION := 381-SNAPSHOT
 
 .PHONY: build local push run down release
 uname_m := $(shell uname -m)
@@ -38,8 +38,8 @@ corretto:
 	docker buildx build --build-arg VERSION=${TRINO_SNAPSHOT_VERSION} --platform linux/arm64 -f trino-base/Dockerfile-corrett -t satyakommula/trino-base:${TRINO_SNAPSHOT_VERSION}-corretto trino-base --push
 	docker buildx build --build-arg VERSION=${TRINO_SNAPSHOT_VERSION}-corretto --platform linux/arm64 -t satyakommula/trino-coordinator:${TRINO_SNAPSHOT_VERSION}-corretto trino-coordinator --push
 	docker buildx build --build-arg VERSION=${TRINO_SNAPSHOT_VERSION}-corretto --platform linux/arm64 -t satyakommula/trino-worker:${TRINO_SNAPSHOT_VERSION}-corretto trino-worker --push
-
-push: build push_arm64v7
+# push: build push_arm64v7
+push: build
 	docker push satyakommula/trino-base:$(TRINO_VERSION)
 	docker push satyakommula/trino-coordinator:$(TRINO_VERSION)
 	docker push satyakommula/trino-worker:$(TRINO_VERSION)
