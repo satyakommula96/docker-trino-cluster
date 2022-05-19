@@ -43,7 +43,7 @@ push: build
 	docker push satyakommula/trino-base:${TRINO_VERSION}
 	docker push satyakommula/trino-coordinator:${TRINO_VERSION}
 	docker push satyakommula/trino-worker:${TRINO_VERSION}
-	sh ./update-readme.sh
+# sh ./update-readme.sh
 
 run: build
 	TRINO_VERSION=${TRINO_VERSION} docker-compose up -d

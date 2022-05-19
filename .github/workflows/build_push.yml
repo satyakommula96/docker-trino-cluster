@@ -14,16 +14,27 @@ jobs:
         uses: actions/checkout@v3
       - name: Login to DockerHub
         env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build
         run: |
           make build
-      - name: update_readme
-        run: |
-          ./update-readme.sh
       - name: Push to DockerHub
         run: |
           make push
+      - name: Docker Hub Description for coordinator
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          repository: satyakommula/trino-coordinator
+          readme-filepath: ./README.md
+      - name: Docker Hub Description for worker
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          repository: satyakommula/trino-worker
+          readme-filepath: ./README.md
