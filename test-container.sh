@@ -16,7 +16,8 @@ function test_container {
 
     set +e
     I=0
-    until RESULT=$(docker-compose exec coordinator /usr/local/bin/trino-cli --execute "SELECT 'success'" | tr -d ); do
+    until RESULT=$(docker-compose exec coordinator /usr/local/bin/trino-cli --execute "SELECT 'success'" | tr -d 
+); do
         if [[ $((I++)) -ge ${QUERY_RETRIES} ]]; then
             echo "Too many retries waiting for Presto to start."
             break
@@ -29,4 +30,5 @@ function test_container {
     [[ ${RESULT} == '"success"' ]]
 }
 
+echo $1
 test_container $1
