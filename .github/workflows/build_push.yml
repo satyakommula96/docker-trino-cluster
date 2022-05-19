@@ -25,10 +25,6 @@ jobs:
         run: |
           make build
       -
-        name: Deploy Cluster
-        run: |
-          make run
-      -
         name: Test
         run: |
           make test
