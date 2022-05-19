@@ -21,15 +21,23 @@ jobs:
         run: |
            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       -
-        name: Build&Test
+        name: Build
         run: |
-          make build;make test
+          make build
+      -
+        name: Deploy Cluster
+        run: |
+          make run
+      -
+        name: Test
+        run: |
+          make test
       - 
         name: update_readme
         run: |
           ./update-readme.sh
       - 
-        name: Deploy
+        name: Push to DockerHub
         run: | 
           make push
       
