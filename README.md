@@ -51,18 +51,18 @@ $ docker network create trino_network
 $ docker run -p 8080:8080 -it \
     --net trino_network \
     --name coordinator \
-    satyakommula/trino-coordinator:330-SNAPSHOT http://localhost:8080
+    satyakommula/trino-coordinator:381-SNAPSHOT http://localhost:8080
 
 # Launch two workers
 $ docker run -it \
     --net trino_network \
     --name worker1 \
-    satyakommula/trino-worker:330-SNAPSHOT http://coordinator:8080
+    satyakommula/trino-worker:381-SNAPSHOT http://coordinator:8080
 
 $ docker run -it \
     --net trino_network \
     --name worker2 \
-    satyakommula/trino-worker:330-SNAPSHOT http://coordinator:8080
+    satyakommula/trino-worker:381-SNAPSHOT http://coordinator:8080
 ```
 
 ## docker-compose.yml
@@ -96,7 +96,7 @@ services:
 The version can be specified as the environment variable.
 
 ```bash
-trino_VERSION=330-SNAPSHOT docker-compose up
+trino_VERSION=381-SNAPSHOT docker-compose up
 ```
 
 ## Custom Catalogs
@@ -145,6 +145,6 @@ make build
 You may want to build the trino with your own build package for the development of trino itself.
 
 ```bash
-cp /path/to/trino/trino-server/target/trino-server-330-SNAPSHOT.tar.gz /path/to/docker-trino-cluster/trino-base/
+cp /path/to/trino/trino-server/target/trino-server-381-SNAPSHOT.tar.gz /path/to/docker-trino-cluster/trino-base/
 make snapshot
 ```
