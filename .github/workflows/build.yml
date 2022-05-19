@@ -7,34 +7,31 @@ on:
     branches: [main]
 
 jobs:
-  x86_Build:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up QEMU
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
         uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
+      -
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build
-        run: |
-          uname -m
-          make build
-  aarch64_Build:
-    # The host should always be Linux
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
-        id: runcmd
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
         with:
-          arch: aarch64
-          distro: ubuntu20.04
+          username: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          password: ${{ secrets.DOCKER_HUB_USERNAME }}
+      -
+        name: Build
+        run: |
+          make build
+      - 
+        name: Test
+        run: |
+          make test
 
-          # Not required, but speeds up builds by storing container images in
-          # a GitHub package registry.
-          githubToken: ${{ github.token }}
-
-          # Set an output parameter `uname` for use in subsequent steps
-          run: |
-            uname -m
+      
