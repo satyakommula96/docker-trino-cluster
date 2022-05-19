@@ -5,25 +5,21 @@ services:
     image: "satyakommula/trino-coordinator:${TRINO_VERSION}"
     ports:
       - "8080:8080"
-    container_name: "trino_coordinator"
+    container_name: "coordinator"
     command: http://coordinator:8080 coordinator
     # volumes:
     #   - ./example/etc/catalog:/usr/local/trino/etc/catalog
   worker0:
     image: "satyakommula/trino-worker:${TRINO_VERSION}"
-    container_name: "trino_worker_1"
+    container_name: "worker0"
     ports:
       - "8081:8081"
-    depends_on:
-      - trino_coordinator
     command: http://coordinator:8080 worker0
     # volumes:
     #   - ./example/etc/catalog:/usr/local/trino/etc/catalog
   worker1:
     image: "satyakommula/trino-worker:${TRINO_VERSION}"
-    container_name: "trino_worker_2"
-    depends_on:
-      - trino_coordinator
+    container_name: "worker1"
     ports:
       - "8082:8081"
     command: http://coordinator:8080 worker1
