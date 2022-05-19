@@ -21,9 +21,10 @@ jobs:
         uses: docker/setup-buildx-action@v2
       -
         name: Login to DockerHub
+        env: # Or as an environment variable
+          super_secret: ${{ secrets.SuperSecret }}
         uses: docker/login-action@v2
         with:
-          super_secret: ${{ secrets.SuperSecret }}
           username: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           password: ${{ secrets.DOCKER_HUB_USERNAME }}
       -
