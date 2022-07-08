@@ -1,5 +1,4 @@
-# ![Build Status](https://github.com/satyakommula96/docker-trino-cluster/actions/workflows/build.yml/badge.svg)
-# ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/satyakommula96/docker-trino-cluster)
+# ![Build Status](https://github.com/satyakommula96/docker-trino-cluster/actions/workflows/build.yml/badge.svg) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/satyakommula96/docker-trino-cluster)
 
 docker-trino-cluster is a simple tool for launching multiple node [trino](https://trinosql.io/) cluster on docker container.
 The image is synched with the master branch of [trino repository](https://github.com/trinosql/trino). Therefore you can try the latest trino for developing purpose easily.
